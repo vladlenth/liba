@@ -18,5 +18,11 @@ function Book(title, author, pages, read) {
         };
     };
 
-function addBookToLibrary() {
+function addBookToLibrary(title, author, pages, read) {
+    const newBook = new Book(title, author, pages, read);
+    myLibrary.push(newBook);
 }
+
+myLibrary.forEach(Book => {
+    console.log(Book.info());
+});
