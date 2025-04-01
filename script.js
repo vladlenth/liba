@@ -1,3 +1,5 @@
+//liba
+
 const myLibrary = [];
 
 function Book(title, author, pages, read) {
@@ -26,3 +28,36 @@ function addBookToLibrary(title, author, pages, read) {
 myLibrary.forEach(Book => {
     console.log(Book.info());
 });
+
+
+//modal
+
+
+var modal = document.getElementById("myModal");
+var btn = document.getElementById("addBookBtn");
+var span = document.getElementById("closeModal");
+
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+document.getElementById("bookForm").onsubmit = function(event) {
+    event.preventDefault();
+    alert("Book added:\nTitle: " + document.getElementById("title").value + 
+          "\nAuthor: " + document.getElementById("author").value + 
+          "\nPages: " + document.getElementById("pages").value);
+    
+    modal.style.display = "none";
+    
+    this.reset();
+}
