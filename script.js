@@ -1,45 +1,58 @@
 //liba
-const myLibrary = [];
+class Book {
 
-function Book(title, author, pages, read) {
-    this.id = crypto.randomUUID();
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
+    constructor(title, author, pages, read) {
+        this.id = crypto.randomUUID();
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+    }
 
-    this.isRead = function() {
+    isRead() {
         if (this.read) {
             return "already read";
         } else {
             return "not read yet";
         }
-    };
+    }
 
-    this.info = function() {
+    info() {
         return `The ${this.title} by ${this.author}, ${this.pages} pages, ${this.isRead()}.`;
-    };
+    }
+};
+
+
+//liba and its methods
+class Library {
+
+    constructor() {
+        this.books = [];
+    }
+
+    addBook(title, author, pages, read) {
+        const newBook = new Book(title, author, pages, read);
+        this.books.push(newBook);
+    }
+
+    displayBooks() {
+        const outputDiv = document.querySelector(".book-list");
+        outputDiv.innerHTML = "";
+
+        this.books.forEach((book, index) => {
+            const bookInfo = document.createElement("div");
+            bookInfo.classList.add("column");
+            bookInfo.id = `output-${index}`;
+            bookInfo.textContent = book.info();
+            outputDiv.appendChild(bookInfo);
+        });
+    }
+
 }
 
-//add book to liba
-function addBookToLibrary(title, author, pages, read) {
-    const newBook = new Book(title, author, pages, read);
-    myLibrary.push(newBook);
-}
 
-//display books
-function displayBooks() {
-    const outputDiv = document.querySelector(".book-list");
-    outputDiv.innerHTML = "";
-
-    myLibrary.forEach((book, index) => {
-        const bookInfo = document.createElement("div");
-        bookInfo.classList.add("column");
-        bookInfo.id = `output-${index}`;
-        bookInfo.textContent = book.info();
-        outputDiv.appendChild(bookInfo);
-    });
-}
+//create a library "INSTANCE"
+const myLibrary = new Library();
 
 //modal
 const modal = document.getElementById("myModal");
@@ -69,8 +82,8 @@ document.getElementById("bookForm").onsubmit = function(event) {
     const pages = document.getElementById("pages").value;
     const read = document.getElementById("read").checked;
 
-    addBookToLibrary(title, author, pages, read);
-    displayBooks();
+    myLibrary.addBook(title, author, pages, read);
+    myLibrary.displayBooks();
 
     modal.style.display = "none";
     this.reset();
